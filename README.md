@@ -1,7 +1,7 @@
 <br />
 <p align="center">
 
-  <h3 align="center">Stock_news_headline_sentiment_analysis</h3>
+  <h3 align="center">Stock News Headline Sentiment Analysis</h3>
 
   <p align="center">
     Cecilia Li, David Li, Liren Wu
