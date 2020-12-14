@@ -31,7 +31,11 @@ Given a financial news headline, predict the financial news headline sentiment a
 * pre-processing - This folder includes pre-processing steps for some models and before training data anlysis.
 
 * final_model -This folder includes our final model that had the best performance among all the models. This file should contain all that you need to perform our best prediction.
-To Run Code:
-run 'final_SVC.py'
+
+To run final model:
+
+1. Go to final_model folder
+2. Install 'requirement.txt'
+3. Run 'final_SVC.py'
 
 
