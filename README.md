@@ -42,55 +42,13 @@ In this project, we use different machine learning models to predict stock headl
 Given a financial news headline, predict the financial news headline sentiment and output: -1 (negative) or 1 (positive) 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+## Files explained
+* data analysis - This file includes a script that compared sentiments to price movement
+* datasets - This file includes the dataset used for some models
+* models - This file includes all the models that we have built and tested for this task (and requiremets to run)
+* pre-processing - This file includes pre-processing steps for some models and before training data anlysis
+*  -This file includes our final model that had the best performance among all the models. This file should contain all that you need to perform our best prediction.
+note: to run each model in models, refer to the comments in script
 
-Download the repo.
-More steps to be added
-
-### Prerequisites
-
-required packages
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
 
 
