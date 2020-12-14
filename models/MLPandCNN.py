@@ -20,6 +20,7 @@ import gensim
 
 #to run the MLP model, uncomment the model1 part in main, and comment out model2 part in main
 #to run the CNN model, uncomment the model2 part in main, and comment out model1 part in main 
+#this script uses model.txt from section for encoding, if run CNN, put model.txt in the same dir as this script
 
 def load_test_data():
     # load test data
