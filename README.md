@@ -21,12 +21,12 @@ In this project, we use different machine learning models to predict stock headl
 Given a financial news headline, predict the financial news headline sentiment and output: -1 (negative) or 1 (positive) 
 
 
-## Files explained
-* data analysis - This file includes a script that compared sentiments to price movement
-* datasets - This file includes the dataset used for some models
-* models - This file includes all the models that we have built and tested for this task (and requiremets to run). *note: to run each model in models, refer to the comments in script
-* pre-processing - This file includes pre-processing steps for some models and before training data anlysis
-*  -This file includes our final model that had the best performance among all the models. This file should contain all that you need to perform our best prediction.
+## Folders explained
+* data analysis - This folder includes a script that compared sentiments to price movement
+* datasets - This folder includes the dataset used for some models
+* models - This folder includes all the models that we have built and tested for this task (and requiremets to run). *note: to run each model in models, refer to the comments in script
+* pre-processing - This folder includes pre-processing steps for some models and before training data anlysis
+*  -This folder includes our final model that had the best performance among all the models. This file should contain all that you need to perform our best prediction.
 
 
 
