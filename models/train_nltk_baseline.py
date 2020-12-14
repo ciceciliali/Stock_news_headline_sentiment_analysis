@@ -8,6 +8,10 @@ from sklearn.metrics import f1_score
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 import nltk
 
+'''
+TO RUN CODE: JUST RUN IT
+If NLTK Vader is not installed, uncomment line 109 to download
+'''
 
 def load_test_data():
     # load test data

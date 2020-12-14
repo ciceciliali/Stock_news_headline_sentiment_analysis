@@ -1,17 +1,10 @@
 import csv
 import os
-import spacy
-import numpy as np
 import re
 import pandas as pd
 import nltk
 from tqdm.auto import tqdm
 import contractions
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -20,14 +13,14 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import f1_score
-from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
-import nltk
 
-import math
-from itertools import chain
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+'''
+TO RUN CODE:
+Everything should just runs in main()
+F1 score are printed for all models.
+To print the accuracy for a model, check line 108-185.
+Comment out or uncomment which prediction to calculate accuracy for. 
+'''
 
 
 def load_data_sentiment140():
@@ -159,8 +152,7 @@ def main():
     # use scikit learn tfidf vectorizer on the text, limit features to 1000 to minimize over-fitting
     tfidf_vec = TfidfVectorizer()
     x_train = tfidf_vec.fit_transform(x_train)
-    x_test = tfidf_vec.transform(test_data)
-    y_test = check_test
+    x_test = tfidf_vec.transform(x_test)
 
     clf = MultinomialNB(alpha=0.1).fit(x_train, y_train)
     clf2 = LogisticRegression(max_iter=100).fit(x_train, y_train)
@@ -176,36 +168,40 @@ def main():
     predictions5 = clf5.predict(x_test)
     predictions6 = clf6.predict(x_test)
 
-    # print('MultinomialNB F1 Score: [1] ', round(f1_score(y_test, predictions, average='micro'), 3))
-    # print('LogisticRegression F1 Score: [2] ', round(f1_score(y_test, predictions2, average='micro'), 3))
-    # print('SVC F1 Score: [3] ', round(f1_score(y_test, predictions3, average='micro'), 3))
-    # print('LinearSVC F1 Score: [4] ', round(f1_score(y_test, predictions4, average='micro'), 3))
-    # print('DecisionTreeClassifier F1 Score: [5] ', round(f1_score(y_test, predictions5, average='micro'), 3))
-    # print('RandomForestClassifier F1 Score: [6] ', round(f1_score(y_test, predictions6, average='micro'), 3))
+    print('MultinomialNB F1 Score: [1] ', round(f1_score(y_test, predictions, average='micro'), 3))
+    print('LogisticRegression F1 Score: [2] ', round(f1_score(y_test, predictions2, average='micro'), 3))
+    print('SVC F1 Score: [3] ', round(f1_score(y_test, predictions3, average='micro'), 3))
+    print('LinearSVC F1 Score: [4] ', round(f1_score(y_test, predictions4, average='micro'), 3))
+    print('DecisionTreeClassifier F1 Score: [5] ', round(f1_score(y_test, predictions5, average='micro'), 3))
+    print('RandomForestClassifier F1 Score: [6] ', round(f1_score(y_test, predictions6, average='micro'), 3))
 
-    # using SVC for output
-    rel_final2 = predictions3
-    final1 = []
+    x_test = tfidf_vec.transform(test_data)
+
+    #final_predictions = clf.predict(x_test)
+    #final_predictions = clf2.predict(x_test)
+    final_predictions = clf3.predict(x_test)
+    #final_predictions = clf4.predict(x_test)
+    #final_predictions = clf5.predict(x_test)
+    #final_predictions = clf6.predict(x_test)
+
     output = []
     gold_output = []
-    for x in range(len(rel_final2)):
-        if rel_final2[x] == 1:
-            final1.append(1)
+    for x in range(len(final_predictions)):
+        if final_predictions[x] == 1:
             output.append([test_data[x], 1])
 
-        if rel_final2[x] == 0:
-            final1.append(-1)
+        if final_predictions[x] == 0:
             output.append([test_data[x], -1])
 
         gold_output.append([test_data[x], check_test[x]])
 
     correct = 0
-    total = len(final1)
-    for i in range(len(final1)):
-        if final1[i] == check_test[i]:
+    total = len(output)
+    for i in range(total):
+        if output[i][1] == check_test[i]:
             correct += 1
 
-    print('Using Sentiment140 and SVC model\nAcc:', correct / total)
+    print('Using Sentiment140\nAcc:', correct / total)
 
     file_pred = os.path.join('Output', 'pred_140.csv')
     file_gold = os.path.join('Output', 'gold_140.csv')
