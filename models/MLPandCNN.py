@@ -18,6 +18,9 @@ import math
 from itertools import chain
 import gensim
 
+#to run the MLP model, uncomment the model1 part in main, and comment out model2 part in main
+#to run the CNN model, uncomment the model2 part in main, and comment out model1 part in main 
+
 def load_test_data():
     # load test data
     file_train = os.path.join('labeled.csv')
@@ -30,7 +33,6 @@ def load_test_data():
 
     # make to list
     return df
-
 
 def get_all_relations(df_data):
     d = {}
@@ -102,12 +104,8 @@ def gety_dict(df_data):
     return d,d_l 
 
 class BBCNewsDataset(Dataset):
-    # This class is an interface for our training/test dataset
+    # This class is an interface for our training/dev/test dataset
     # with pytorch
-
-    # It prepares our training/test examples into a form that pytorch expects
-    # Input: ["Warner Bros gets $1m profit ", "business"]
-    # Output: [[TFIDF/Word Vector for text, 0]]
     def __init__(self, texts, labels, input_transformer):
         self.texts = texts
         self.labels = labels
@@ -334,7 +332,7 @@ class MultiClassTrainer(object):
         
                 #print(torch.argmax(probs))
                 predictions = torch.argmax(probs, dim=-1) # Output predictions; Argmax picks the index with the highest probability among all the classes (choosing our most probable class)
-                
+                #print(predictions)
 
                 batch_wise_predictions.append(predictions.tolist())
 
@@ -517,14 +515,8 @@ def main():
         f.close()
         break
 
-    # Model 1: simple MLP 80% ('Precision Score:', 0.8099630996309963) ('Recall Score:', 0.7035256410256411)
-    #mlp = MultiLayerPerceptron(input_size, hidden_size, output_size)
-    #optimizer = optim.Adam(mlp.parameters(), lr=LEARNING_RATE)
-    #mlp_trainer = MultiClassTrainer(mlp, optimizer, loss_fn)
-    #mlp_trainer.run_training(train_tfidf_loader, valid_tfidf_loader, y_dict_list, n_epochs=10)
-    #test_pred = mlp_trainer.run_testing(test_tfidf_loader)
 
-    # Model 2: MLP with dropout baseline 82% 
+    # Model 1: MLP with dropout baseline
     mlp_with_dropout = MultiLayerPerceptron(input_size, hidden_size, output_size, dropout=True, dropout_p=0.25)
     mlp_with_dropout_optimizer = optim.Adagrad(mlp_with_dropout.parameters(), lr=LEARNING_RATE)
     mlp_with_dropout_trainer = MultiClassTrainer(mlp_with_dropout, mlp_with_dropout_optimizer, loss_fn)
@@ -532,21 +524,21 @@ def main():
     test_pred = mlp_with_dropout_trainer.run_testing(test_tfidf_loader)
 
 
-    # Model 3: CNN
+    # Model 2: CNN
     #word2vec_weights = gensim.models.KeyedVectors.load_word2vec_format("model.txt")
     #sequencer = W2VSequencer(word2vec_weights)
     #sequence_input_transformer = lambda text: sequencer.encode(text)
     #train_sequence_dataset = BBCNewsDataset(train_texts, train_labels, sequence_input_transformer)
     #valid_sequence_dataset = BBCNewsDataset(valid_texts, valid_labels, sequence_input_transformer)
-    #test_sequence_dataset = BBCNewsDataset(X, X, sequence_input_transformer)
+    #test_sequence_dataset = BBCNewsDataset(X, torch.FloatTensor([0]*len(X)), sequence_input_transformer)
     #train_sequence_loader = torch.utils.data.DataLoader(train_sequence_dataset, batch_size=50, collate_fn=lambda batch: prepare_batch(batch, sequencer))
     #valid_sequence_loader = torch.utils.data.DataLoader(valid_sequence_dataset, batch_size=50, collate_fn=lambda batch: prepare_batch(batch, sequencer))
     #test_sequence_loader = torch.utils.data.DataLoader(test_sequence_dataset, batch_size=50, collate_fn=lambda batch: prepare_batch(batch, sequencer))
     #cnn = TextConvolver(input_size, output_size, [3, 4, 5], channel_size=100, dropout=True,dropout_p=0.2, w2v_weights=torch.FloatTensor(word2vec_weights.vectors))
     #cnn_optimizer = optim.Adam(cnn.parameters(), lr=1e-3)
     #cnn_trainer = MultiClassTrainer(cnn, cnn_optimizer, loss_fn)
-    #cnn_trainer.run_training(train_sequence_loader, valid_sequence_loader, y_dict_list, n_epochs=10)
-    #test_pred = cnn_trainer.run_testing(test_tfidf_loader)
+    #cnn_trainer.run_training(train_sequence_loader, valid_sequence_loader, y_dict_list, n_epochs=1)
+    #test_pred = cnn_trainer.run_testing(test_sequence_loader)
 
 
     final1 = []
@@ -575,30 +567,8 @@ def main():
             test_neg += 1
 
     print('test pos: ',str(test_pos),'test neg: ', str(test_neg))
-    print('F1 Score: ', round(f1_score(check_test, test_pred, average='micro'), 3))
-
+    #print('F1 Score: ', round(f1_score(check_test, test_pred, average='micro'), 3))
     print('Acc:', correct/total)
-
-    # final_list = list_to_label(test_pred, all_relations_l)
-    # string = "ID,CORE " + "\n"
-    # for i in range(0,len(final_list)):
-    #     if final_list[i] == 'nan':
-    #         string = string + str(i+1) + "," + '' + '\n'
-    #     else:
-    #         string = string + str(i+1) + "," + final_list[i] + '\n'
-    # f = open("single-label.csv", "w")
-    # f.write(str(string))
-    # f.close()
-
-
-    #print(final_list)
-
-
-    #test_file = os.path.join('hw2_data','test.csv')
-    #df = pd.read_csv(test_file)
-    #df_data = df.values.tolist()
-    #X = getX(df_data)
-    #tfidf_vec.fit(X)
 
 
 
