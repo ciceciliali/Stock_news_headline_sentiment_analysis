@@ -24,7 +24,7 @@ import gensim
 
 def load_test_data():
     # load test data
-    file_train = os.path.join('labeled.csv')
+    file_train = os.path.join('Data', 'labeled.csv')
     df = pd.read_csv(file_train, sep=',', engine='python')
 
     df = df[df['SENTIMENT'].isin([1, -1])]
@@ -460,7 +460,7 @@ def prepare_batch(batch, sequencer):
     return (text_tensor, torch.stack(labels))
 
 def main():
-    input_file = os.path.join('clean_data.csv')
+    input_file = os.path.join('Data', 'clean_data.csv')
     #input_file = 'more_data.csv'
     df = pd.read_csv(input_file, sep=',', engine='python')
     df_data = df.values.tolist()
@@ -508,13 +508,6 @@ def main():
     train_tfidf_loader = torch.utils.data.DataLoader(train_tfidf_dataset, batch_size=16)
     valid_tfidf_loader = torch.utils.data.DataLoader(valid_tfidf_dataset, batch_size=16)
     test_tfidf_loader = torch.utils.data.DataLoader(test_tfidf_dataset, batch_size=16)
-    for train in train_tfidf_loader:
-        x,y=train
-        f = open("singleclass.txt", "w")
-        f.write(str(x.tolist()))
-        f.write(str(y))
-        f.close()
-        break
 
 
     # Model 1: MLP with dropout baseline
